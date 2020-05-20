@@ -44,7 +44,7 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 // this will run babel on all of our javascript and wbepack will bundle it up
-                use: ["babel-loader"]
+                use: ["babel-loader", "eslint-loader"]
             },
             {
                 // will allows us to import css and bundle our css into a single file 
