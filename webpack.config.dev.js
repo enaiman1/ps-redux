@@ -9,7 +9,7 @@ module.exports = {
     // set webpack to work with browser (as opposed to node)
     target: 'web',
     //will help with debugging(will allow us to see our original code before babel compilied it)
-    devTool: 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
     entry: './src/index',
     output: {
         path: path.resolve(__dirname, "build"),
