@@ -1,4 +1,7 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import * as courseActions from '../../redux/actions/courseActions'
+import PropTypes from 'prop-types'
 
 class CoursesPage extends React.Component{
     
@@ -17,8 +20,7 @@ class CoursesPage extends React.Component{
 
     handleSubmit=(event)=>{
         event.preventDefault()
-        alert(this.state.course.title)
-       
+        this.props.dispatch(courseActions.createCourse(this.state.course))       
     }
 
 render(){
@@ -35,5 +37,17 @@ render(){
     )
 }
 }
+CoursesPage.prototype = {
+    dispatch: PropTypes.func.isRequired
+}
 
-export default CoursesPage
+// this func determines what state is pass to our component via props
+function mapStateToProps(state){
+    return {
+        courses: state.courses
+    }
+}
+
+
+// the connect function connects out component to redux by returning a function that theb calls our component
+export default connect(mapStateToProps) (CoursesPage)
