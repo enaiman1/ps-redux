@@ -30,6 +30,10 @@ module.exports = {
         https: false
     },
     plugins: [
+        // webpack will replace process.env.API_URL with the URL we've specified
+        new webpack.DefinePlugin({
+            "process.env.API_URL":JSON.stringify("http://localhost:3001")
+        }),
         // where to find our html and fav.icon
         new HtmlWebpackPlugin({
             template: 'src/index.html',

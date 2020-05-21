@@ -2,69 +2,46 @@ import React from 'react'
 import { connect } from 'react-redux'
 import * as courseActions from '../../redux/actions/courseActions'
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux'
+import CourseList from "./CourseList"
 
-class CoursesPage extends React.Component{
-    
-       state ={
-            course: {
-                title: ""
-            }
-        }
-   
-
-    handleChange = event => {
-        const course = { ...this.state.course, title: event.target.value};
-        this.setState({ course });
-
-    }
-
-    handleSubmit=(event)=>{
-        event.preventDefault()
-        this.props.actions.createCourse(this.state.course)
-        console.log(this.state.course)
-         
-    }
-
-render(){
-    return (
-        <form onSubmit={this.handleSubmit}>
-            <h2>Courses</h2>
-            <h3>Add Course</h3>
-            <input type="text" 
-                onChange={this.handleChange} 
-                value={this.state.course.title}
-                 />
-            <input type="submit" value="Save" />
-            {this.props.courses.map(course => (
-          <div key={course.title}>{course.title}</div>
-        ))}
-           
-        </form>
-        
-    )
-    
+class CoursesPage extends React.Component {
+componentDidMount(){
+    this.props.actions.loadCourses().catch(error => {
+        alert("Loading courses failed" + error);
+    })
 }
+
+
+    render() {
+        return (
+            <>
+                <h2>Courses</h2>
+                <CourseList courses={this.props.courses} />
+            </>
+        )
+
+    }
 }
 CoursesPage.propTypes = {
     courses: PropTypes.array.isRequired,
-   actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired
 }
 
 // this func determines what state is pass to our component via props
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
         courses: state.courses
     }
 }
 
 // this will determine what actions are available on props in our component
-function mapDispatchToProps(dispatch){
-    return{
+function mapDispatchToProps(dispatch) {
+    return {
         actions: bindActionCreators(courseActions, dispatch)
     }
 }
 
 
 // the connect function connects out component to redux by returning a function that theb calls our component
-export default connect(mapStateToProps, mapDispatchToProps) (CoursesPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage)
