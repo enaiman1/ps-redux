@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import * as courseApi from '../../api/courseApi'
+import { beginApiCall } from './apiStatusActions'
 
 
 // this function does not fire until Authors return from our api call
@@ -22,6 +23,7 @@ export function updateCourseSuccess(course) {
 // Redux thunk injects dispatch so we dont have to
 export function loadCourses(){
     return function (dispatch){
+        dispatch(beginApiCall())
         return courseApi.getCourses().then(courses => {
             dispatch(loadCoursesSuccess(courses))
         }).catch(error =>{
@@ -32,6 +34,7 @@ export function loadCourses(){
 
 export function saveCourse(course){
     return function(dispatch, getState) {
+        dispatch(beginApiCall())
         return courseApi
         .saveCourse(course)
         .then(savedCourse => {
