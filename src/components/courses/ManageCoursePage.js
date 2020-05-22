@@ -20,7 +20,7 @@ function ManageCoursePage({ courses, authors, loadAuthors, loadCourses, saveCour
                 alert("Loading courses failed" + error);
             })
         } else {
-            setCourse({...props.course })
+            setCourse({ ...props.course })
         }
 
         if (authors.length === 0) {
@@ -44,22 +44,25 @@ function ManageCoursePage({ courses, authors, loadAuthors, loadCourses, saveCour
         saveCourse(course).then(() => {
             toast.success('Course saved.');
             history.push("/courses")
+        }).catch(error => {
+            setSaving(false)
+            setErrors({ onSave: error.message })
         })
     }
 
     return (
-        authors.length === 0 || course.length === 0  ? (
-        <Spinner />     
-            ) : (
-        <CourseForm
-            course={course}
-            errors={errors}
-            authors={authors}
-            onChange={handleChange}
-            onSave={handleSave}
-            saving={saving}
-        />
-        )
+        authors.length === 0 || course.length === 0 ? (
+            <Spinner />
+        ) : (
+                <CourseForm
+                    course={course}
+                    errors={errors}
+                    authors={authors}
+                    onChange={handleChange}
+                    onSave={handleSave}
+                    saving={saving}
+                />
+            )
     )
 
 
