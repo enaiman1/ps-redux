@@ -15,7 +15,9 @@ export function updateCourseSuccess(course) {
     return { type: types.UPDATE_COURSE_SUCCESS, course}
 }
 
-
+export function deleteCourseOptimitic(course) {
+    return { type: types.DELETE_COURSE_OPTIMISTIC, course};
+}
 
 
 // export function looks like this because it utlized by thunk middleware..
@@ -49,3 +51,12 @@ export function saveCourse(course){
     }
 }
 
+
+export function deleteCourse(course){
+    return function (dispatch){
+        // Doing optimistic delete, so not to dispatching begin/end api call
+        //actions, or apiCallError action since we're not showing the laoding status for this.
+        dispatch(deleteCourseOptimitic(course));
+        return courseApi.deleteCourse(course.id);
+    }
+}
